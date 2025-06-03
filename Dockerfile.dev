@@ -14,14 +14,14 @@ if [ ! -d ".git" ]; then\n\
     # 如果是空目录，克隆 PX4 仓库\n\
     if [ -z "$(ls -A)" ]; then\n\
         # 先克隆主仓库\n\
-        git clone https://github.com/PX4/PX4-Autopilot.git .\n\
+        git clone --recursive https://github.com/PX4/PX4-Autopilot.git .\n\
         \n\
         # 设置上游仓库\n\
         git remote add upstream https://github.com/PX4/PX4-Autopilot.git\n\
         \n\
-        # 初始化子模块\n\
-        git submodule init\n\
-        git submodule update --init --recursive\n\
+        # 确保构建目录存在并有正确的权限\n\
+        mkdir -p build/px4_sitl_default\n\
+        chmod -R 777 build\n\
         \n\
         # 安装依赖\n\
         make submodules\n\
