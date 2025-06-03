@@ -11,14 +11,6 @@ set -e\n\
 mkdir -p build/px4_sitl_default\n\
 chmod -R 777 build\n\
 \n\
-# 初始化 git 仓库\n\
-if [ ! -d .git ]; then\n\
-    rm -rf *\n\
-    git clone --recursive https://github.com/PX4/PX4-Autopilot.git .\n\
-    git remote add upstream https://github.com/PX4/PX4-Autopilot.git\n\
-    make submodules\n\
-fi\n\
-\n\
 # 确保 git 配置正确\n\
 git config --global --add safe.directory /home/user/px4\n\
 git config --global --add safe.directory /home/user/px4/Tools/sitl_gazebo\n\
