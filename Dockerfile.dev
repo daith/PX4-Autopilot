@@ -11,6 +11,16 @@ set -e\n\
 mkdir -p build/px4_sitl_default\n\
 chmod -R 777 build\n\
 \n\
+# 初始化 git 仓库\n\
+if [ ! -d .git ]; then\n\
+    git init\n\
+    git remote add origin https://github.com/PX4/PX4-Autopilot.git\n\
+    git fetch origin\n\
+    git checkout -b main origin/main\n\
+    git submodule update --init --recursive\n\
+    make submodules\n\
+fi\n\
+\n\
 # 执行传入的命令\n\
 exec "$@"' > /usr/local/bin/init.sh && \
     chmod +x /usr/local/bin/init.sh
