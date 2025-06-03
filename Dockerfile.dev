@@ -1,0 +1,29 @@
+FROM px4io/px4-dev-simulation-focal:latest
+
+# 设置工作目录
+WORKDIR /home/user/px4
+
+# 创建初始化脚本
+RUN echo '#!/bin/bash\n\
+set -e\n\
+\n\
+# 确保构建目录存在并有正确的权限\n\
+mkdir -p build/px4_sitl_default\n\
+chmod -R 777 build\n\
+\n\
+# 确保 git 配置正确\n\
+git config --global --add safe.directory /home/user/px4\n\
+git config --global --add safe.directory /home/user/px4/Tools/sitl_gazebo\n\
+git config --global --add safe.directory /home/user/px4/src/drivers/gps/devices\n\
+git config --global --add safe.directory /home/user/px4/src/drivers/uavcan/libuavcan\n\
+git config --global --add safe.directory /home/user/px4/src/lib/parameters/tinybson\n\
+git config --global --add safe.directory /home/user/px4/src/modules/micrortps_bridge/micro-CDR\n\
+git config --global --add safe.directory /home/user/px4/src/modules/micrortps_bridge/microcdr\n\
+\n\
+# 执行传入的命令\n\
+exec "$@"' > /usr/local/bin/init.sh && \
+    chmod +x /usr/local/bin/init.sh
+
+# 设置入口点
+ENTRYPOINT ["/usr/local/bin/init.sh"]
+CMD ["bash"]
