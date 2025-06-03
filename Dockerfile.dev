@@ -7,34 +7,9 @@ WORKDIR /home/user/px4
 RUN echo '#!/bin/bash\n\
 set -e\n\
 \n\
-# 检查是否是首次运行\n\
-if [ ! -d ".git" ]; then\n\
-    echo "初始化 PX4 开发环境..."\n\
-    \n\
-    # 如果是空目录，克隆 PX4 仓库\n\
-    if [ -z "$(ls -A)" ]; then\n\
-        # 先克隆主仓库\n\
-        git clone https://github.com/PX4/PX4-Autopilot.git .\n\
-        \n\
-        # 设置上游仓库\n\
-        git remote add upstream https://github.com/PX4/PX4-Autopilot.git\n\
-        \n\
-        # 手动初始化子模块\n\
-        for module in $(git config --file .gitmodules --get-regexp path | awk "{ print \$2 }"); do\n\
-            git submodule init $module\n\
-            git submodule update --init --recursive $module\n\
-        done\n\
-        \n\
-        # 确保构建目录存在并有正确的权限\n\
-        mkdir -p build/px4_sitl_default\n\
-        chmod -R 777 build\n\
-        \n\
-        # 安装依赖\n\
-        make submodules\n\
-    else\n\
-        echo "目录不为空，跳过克隆步骤"\n\
-    fi\n\
-fi\n\
+# 确保构建目录存在并有正确的权限\n\
+mkdir -p build/px4_sitl_default\n\
+chmod -R 777 build\n\
 \n\
 # 执行传入的命令\n\
 exec "$@"' > /usr/local/bin/init.sh && \
