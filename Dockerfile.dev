@@ -1,8 +1,12 @@
 FROM px4io/px4-dev-simulation-focal:latest
 
-# 避免每次進 container 手動 make submodules
+# 设置工作目录
 WORKDIR /home/user/px4
 
-RUN git submodule update --init --recursive
+# 创建初始化脚本
+COPY scripts/init.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/init.sh
 
+# 设置入口点
+ENTRYPOINT ["/usr/local/bin/init.sh"]
 CMD ["bash"]
