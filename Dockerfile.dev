@@ -19,6 +19,15 @@ if [ ! -d .git ]; then\n\
     make submodules\n\
 fi\n\
 \n\
+# 确保 git 配置正确\n\
+git config --global --add safe.directory /home/user/px4\n\
+git config --global --add safe.directory /home/user/px4/Tools/sitl_gazebo\n\
+git config --global --add safe.directory /home/user/px4/src/drivers/gps/devices\n\
+git config --global --add safe.directory /home/user/px4/src/drivers/uavcan/libuavcan\n\
+git config --global --add safe.directory /home/user/px4/src/lib/parameters/tinybson\n\
+git config --global --add safe.directory /home/user/px4/src/modules/micrortps_bridge/micro-CDR\n\
+git config --global --add safe.directory /home/user/px4/src/modules/micrortps_bridge/microcdr\n\
+\n\
 # 执行传入的命令\n\
 exec "$@"' > /usr/local/bin/init.sh && \
     chmod +x /usr/local/bin/init.sh
